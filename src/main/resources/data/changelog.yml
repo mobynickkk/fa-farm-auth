@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_user_table
+      author: Nikita Antropov
+      changes:
+        - sqlFile:
+            path: data/sql/security/create_user_table.sql
+  - changeSet:
+      id: create_authorities_table
+      author: Nikita Antropov
+      changes:
+        - sqlFile:
+            path: data/sql/security/create_authorities_table.sql
+  - changeSet:
+      id: create_username_index_authorities
+      author: Nikita Antropov
+      changes:
+        - sqlFile:
+            path: data/sql/security/create_username_index_authorities.sql
