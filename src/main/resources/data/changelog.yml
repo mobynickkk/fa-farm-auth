@@ -2,18 +2,66 @@ databaseChangeLog:
   - changeSet:
       id: create_user_table
       author: Nikita Antropov
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+          - tableExists:
+            tableName: users
       changes:
         - sqlFile:
             path: data/sql/security/create_user_table.sql
   - changeSet:
       id: create_authorities_table
       author: Nikita Antropov
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+              tableName: authorities
       changes:
         - sqlFile:
             path: data/sql/security/create_authorities_table.sql
   - changeSet:
       id: create_username_index_authorities
       author: Nikita Antropov
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - indexExists:
+              indexName: ix_auth_username
       changes:
         - sqlFile:
             path: data/sql/security/create_username_index_authorities.sql
+  - changeSet:
+      id: create_group_table
+      author: Nikita Antropov
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+              tableName: groups
+      changes:
+        - sqlFile:
+            path: data/sql/security/create_group_table.sql
+  - changeSet:
+      id: create_group_authorities
+      author: Nikita Antropov
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+              tableName: group_authorities
+      changes:
+        - sqlFile:
+            path: data/sql/security/create_group_authorities.sql
+  - changeSet:
+      id: create_group_members_table
+      author: Nikita Antropov
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+              tableName: group_members
+      changes:
+        - sqlFile:
+            path: data/sql/security/create_group_members_table.sql
