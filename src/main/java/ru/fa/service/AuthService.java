@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
+import ru.fa.dto.AuthDto;
 import ru.fa.dto.RoleDto;
 import ru.fa.dto.UserDto;
 
@@ -18,10 +19,14 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public String authorize(UserDto userDto) throws AuthenticationException {
+    public String authorize(AuthDto authDto) throws AuthenticationException {
         var auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(userDto.username(), userDto.password()));
-        return jwtService.genJwt(userDto.toBuilder().roles(getRelevantRoles(auth)).build());
+                new UsernamePasswordAuthenticationToken(authDto.username(), authDto.password()));
+        return jwtService.genJwt(
+                UserDto.builder()
+                        .username(authDto.username())
+                        .roles(getRelevantRoles(auth))
+                        .build());
     }
 
     private static List<RoleDto> getRelevantRoles(Authentication auth) {
