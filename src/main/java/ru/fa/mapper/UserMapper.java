@@ -4,10 +4,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import ru.fa.dto.RoleDto;
 import ru.fa.dto.UserDto;
 import ru.fa.persistence.entity.UserEntity;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", uses = {RoleMapper.class})
 public interface UserMapper {
     UserDto toDto(UserEntity userEntity);
     @Mapping(target = "password", expression = "java(passwordEncoder.encode(userDto.password()))")

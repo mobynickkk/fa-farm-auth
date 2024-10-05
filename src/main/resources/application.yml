@@ -14,3 +14,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   liquibase:
     change-log: classpath:data/changelog.yml
+
+app:
+  name: ${APP_NAME:antropov-farm}
+  jwt:
+    secret: ${JWT_SECRET:Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=}
+    lifetime: ${JWT_LIFETIME:P1D}
