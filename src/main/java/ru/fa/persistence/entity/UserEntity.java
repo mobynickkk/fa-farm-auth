@@ -29,7 +29,7 @@ public class UserEntity {
     @JoinTable(
             name = "authorities",
             joinColumns = @JoinColumn(name = "username"),
-            inverseJoinColumns = @JoinColumn(name = "role")
+            inverseJoinColumns = @JoinColumn(name = "role_code")
     )
     private Collection<RoleEntity> roles = new ArrayList<>();
 }
