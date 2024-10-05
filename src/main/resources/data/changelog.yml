@@ -6,10 +6,21 @@ databaseChangeLog:
         - onFail: MARK_RAN
         - not:
           - tableExists:
-            tableName: users
+              tableName: users
       changes:
         - sqlFile:
             path: data/sql/security/create_user_table.sql
+  - changeSet:
+      id: create_roles_table
+      author: Nikita Antropov
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: roles
+      changes:
+        - sqlFile:
+            path: data/sql/security/create_roles_table.sql
   - changeSet:
       id: create_authorities_table
       author: Nikita Antropov
@@ -17,7 +28,7 @@ databaseChangeLog:
         - onFail: MARK_RAN
         - not:
             - tableExists:
-              tableName: authorities
+                tableName: authorities
       changes:
         - sqlFile:
             path: data/sql/security/create_authorities_table.sql
@@ -28,40 +39,7 @@ databaseChangeLog:
         - onFail: MARK_RAN
         - not:
             - indexExists:
-              indexName: ix_auth_username
+                indexName: ix_auth_username
       changes:
         - sqlFile:
             path: data/sql/security/create_username_index_authorities.sql
-  - changeSet:
-      id: create_group_table
-      author: Nikita Antropov
-      preConditions:
-        - onFail: MARK_RAN
-        - not:
-            - tableExists:
-              tableName: groups
-      changes:
-        - sqlFile:
-            path: data/sql/security/create_group_table.sql
-  - changeSet:
-      id: create_group_authorities
-      author: Nikita Antropov
-      preConditions:
-        - onFail: MARK_RAN
-        - not:
-            - tableExists:
-              tableName: group_authorities
-      changes:
-        - sqlFile:
-            path: data/sql/security/create_group_authorities.sql
-  - changeSet:
-      id: create_group_members_table
-      author: Nikita Antropov
-      preConditions:
-        - onFail: MARK_RAN
-        - not:
-            - tableExists:
-              tableName: group_members
-      changes:
-        - sqlFile:
-            path: data/sql/security/create_group_members_table.sql
