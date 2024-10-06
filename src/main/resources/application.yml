@@ -14,8 +14,6 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   liquibase:
     change-log: classpath:data/changelog.yml
-  mvc:
-    log-request-details: true
 
 app:
   name: ${APP_NAME:antropov-farm}

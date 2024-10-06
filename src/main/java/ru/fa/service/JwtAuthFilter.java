@@ -12,7 +12,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -51,7 +50,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         } catch (ExpiredJwtException e) {
             throw new CredentialsExpiredException("Истек срок действия токена", e);
         } catch (SignatureException e) {
-            throw new InvalidBearerTokenException("Неверная подпись", e);
+            throw new BadCredentialsException("Неверная подпись", e);
         }
 
         filterChain.doFilter(request, response);
