@@ -1,5 +1,6 @@
 package ru.fa.service;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.TextCodec;
@@ -10,6 +11,7 @@ import ru.fa.dto.UserDto;
 
 import java.time.Duration;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class JwtService {
@@ -21,15 +23,24 @@ public class JwtService {
     private Duration jwtLifetime;
 
     public String genJwt(UserDto userDto) {
-        var roles = userDto.roles().stream().map(RoleDto::roleCode).toList();
         var issuedAt = new Date();
         return Jwts.builder()
                 .setIssuer(appName)
-                .claim("roles", roles)
                 .setSubject(userDto.username())
                 .setIssuedAt(issuedAt)
                 .setExpiration(new Date(issuedAt.getTime() + jwtLifetime.toMillis()))
                 .signWith(SignatureAlgorithm.HS256, TextCodec.BASE64.decode(jwtSecret))
                 .compact();
+    }
+
+    public String getUsername(String token) {
+        return getClaims(token).getSubject();
+    }
+
+    private Claims getClaims(String token) {
+        return Jwts.parser()
+                .setSigningKey(TextCodec.BASE64.decode(jwtSecret))
+                .parseClaimsJws(token)
+                .getBody();
     }
 }
