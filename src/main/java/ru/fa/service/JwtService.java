@@ -12,6 +12,7 @@ import ru.fa.dto.UserDto;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class JwtService {
@@ -24,7 +25,9 @@ public class JwtService {
 
     public String genJwt(UserDto userDto) {
         var issuedAt = new Date();
+        var claims = Map.of("roles", (Object) userDto.roles().stream().map(RoleDto::roleCode).toList());
         return Jwts.builder()
+                .setClaims(claims)
                 .setIssuer(appName)
                 .setSubject(userDto.username())
                 .setIssuedAt(issuedAt)
