@@ -27,11 +27,11 @@ public class JwtService {
         var issuedAt = new Date();
         var claims = Map.of("roles", (Object) userDto.roles().stream().map(RoleDto::roleCode).toList());
         return Jwts.builder()
-                .setClaims(claims)
                 .setIssuer(appName)
                 .setSubject(userDto.username())
                 .setIssuedAt(issuedAt)
                 .setExpiration(new Date(issuedAt.getTime() + jwtLifetime.toMillis()))
+                .addClaims(claims)
                 .signWith(SignatureAlgorithm.HS256, TextCodec.BASE64.decode(jwtSecret))
                 .compact();
     }

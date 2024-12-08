@@ -26,7 +26,7 @@ public class SecurityConfig {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        auth -> auth.requestMatchers("/cattle/**", "/employees/**", "/crop/**").authenticated()
+                        auth -> auth.requestMatchers("/cattle/**", "/employees/**", "/plants/**").authenticated()
                                 .requestMatchers("/auth").permitAll())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
