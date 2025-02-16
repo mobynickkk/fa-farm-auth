@@ -23,3 +23,14 @@ services:
       - "5433:5432"
     volumes:
       - ./env/crop/data:/var/lib/postgresql/data
+  cattle-db:
+    image: postgres:16-alpine
+    container_name: postgres_cattle_db
+    environment:
+      POSTGRES_DB: cattle
+      POSTGRES_USER: cattle_user
+      POSTGRES_PASSWORD: cattle_password
+    ports:
+      - "5434:5432"
+    volumes:
+      - ./env/cattle/data:/var/lib/postgresql/data

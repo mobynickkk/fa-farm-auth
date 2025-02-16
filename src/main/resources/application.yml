@@ -1,8 +1,6 @@
 spring:
   application:
     name: farm-bff
-  logging:
-    level: info
   datasource:
     url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/gateway}
     username: ${DATASOURCE_USER:gateway_user}

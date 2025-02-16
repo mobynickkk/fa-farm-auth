@@ -47,13 +47,13 @@ public class GatewayController {
         }
     }
 
-    @DeleteMapping("/animals/**")
+    @DeleteMapping("/plants/**")
     public ResponseEntity<?> routeDeletePlantsRequest(ProxyExchange<Object> proxy,
                                                     @RequestHeader(HttpHeaders.AUTHORIZATION) String auth,
                                                       @RequestHeader(HttpHeaders.COOKIE) String cookie,
                                                     @RequestBody(required = false) Object body) {
         try {
-            String path = proxy.path("/animals/");
+            String path = proxy.path("/plants/");
             return proxy.uri("http://localhost:8081/" + path)
                     .header(HttpHeaders.AUTHORIZATION, auth)
                     .header(HttpHeaders.COOKIE, cookie)
