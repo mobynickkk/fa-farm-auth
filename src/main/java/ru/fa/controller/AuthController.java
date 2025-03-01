@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,12 +24,9 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/auth")
-    public ResponseEntity<?> authenticate(@RequestBody AuthDto authDto, HttpServletResponse response) {
+    public ResponseEntity<?> authenticate(@RequestBody AuthDto authDto) {
         try {
             var tokenDto = authService.authorize(authDto);
-            var cookie = new Cookie("token", tokenDto.token());
-            cookie.setMaxAge(12000);
-            response.addCookie(cookie);
             return ResponseEntity.ok(tokenDto);
         } catch (AuthenticationException e) {
             return ResponseEntity.status(401).body(e.getMessage());
@@ -39,13 +37,11 @@ public class AuthController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<?> signUp(@RequestBody UserDto userDto, HttpServletResponse response) {
+    @Transactional
+    public ResponseEntity<?> signUp(@RequestBody UserDto userDto) {
         try {
             userService.createUser(userDto);
             var tokenDto = authService.authorize(AuthDto.of(userDto));
-            var cookie = new Cookie("token", tokenDto.token());
-            cookie.setMaxAge(12000);
-            response.addCookie(cookie);
             return ResponseEntity.ok(tokenDto);
         } catch (AuthenticationException e) {
             return ResponseEntity.status(401).body(e.getMessage());

@@ -43,3 +43,9 @@ databaseChangeLog:
       changes:
         - sqlFile:
             path: data/sql/security/create_username_index_authorities.sql
+  - changeSet:
+      id: change_primary_key_authorities
+      author: Nikita Antropov
+      changes:
+        - sqlFile:
+            path: data/sql/security/change_primary_key_authorities.sql
